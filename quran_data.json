@@ -1,5 +1,5 @@
-[
-  {"ar": "آمَنَ", "ro": "Aamana", "hi": "Imaan laya"},
+
+ ' {"ar": "آمَنَ", "ro": "Aamana", "hi": "Imaan laya"},
   {"ar": "أَنْزَلَ", "ro": "Anzala", "hi": "Nazil kiya"},
   {"ar": "بَصَر", "ro": "Basar", "hi": "Ankh/Dekhna"},
   {"ar": "جَعَلَ", "ro": "Ja'ala", "hi": "Banaya"},
@@ -17,4 +17,14 @@
   {"ar": "عَمِلَ", "ro": "Amila", "hi": "Usne amal kiya"},
   {"ar": "قَدَرَ", "ro": "Qadara", "hi": "Qudrat rakhi"},
   {"ar": "كَفَرَ", "ro": "Kafara", "hi": "Inkar kiya"}
+,  {"ar": "عَلِمَ", "ro": "Alima", "hi": "Usne jaana"},
+  {"ar": "قَالَ", "ro": "Qaala", "hi": "Usne kaha"},
+  {"ar": "جَعَلَ", "ro": "Ja'ala", "hi": "Usne banaya"},
+  {"ar": "كَانَ", "ro": "Kaana", "hi": "Wo tha"},
+  {"ar": "آمَنَ", "ro": "Aamana", "hi": "Wo imaan laya"},
+  {"ar": "خَلَقَ", "ro": "Khalaqa", "hi": "Usne paida kiya"},
+  {"ar": "رَزَقَ", "ro": "Razaqa", "hi": "Usne rizq diya"},
+  {"ar": "ذَكَرَ", "ro": "Dhakara", "hi": "Usne yaad kiya"},
+  {"ar": "صَبَرَ", "ro": "Sabara", "hi": "Usne sabr kiya"},
+  {"ar": "نَصَرَ", "ro": "Nasara", "hi": "Usne madad ki"}
 ]
