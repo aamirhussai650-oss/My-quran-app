@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Smart App</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; text-align: center; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 18px; margin-bottom: 10px; }
+        #status { font-size: 12px; margin-bottom: 10px; font-weight: bold; }
+        .result-item { background: #e8f5e9; padding: 15px; border-radius: 10px; margin-top: 10px; border-left: 5px solid #1a4d2e; text-align: right; }
+        .ar { font-size: 28px; color: #1a4d2e; font-weight: bold; }
+        .tr { font-size: 16px; color: #444; text-align: left; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Quran Search</h2>
+    <div id="status">Loading...</div>
+    <input type="text" id="search" placeholder="Type: Rabbi ya रब्बी" oninput="doSearch()">
+    <div id="output"></div>
+</div>
+
+<script>
+    let qData = [];
+
+    // Data khinchne ka function
+    async function startApp() {
+        try {
+            const resp = await fetch('./quran_data.json');
+            qData = await resp.json();
+            document.getElementById('status').innerText = "✅ Connect Ho Gaya!";
+            document.getElementById('status').style.color = "green";
+        } catch (e) {
+            document.getElementById('status').innerText = "❌ Connection Fail";
+            document.getElementById('status').style.color = "red";
+        }
+    }
+
+    function doSearch() {
+        let val = document.getElementById('search').value.toLowerCase().trim();
+        let out = document.getElementById('output');
+        out.innerHTML = "";
+        if(val.length < 2) return;
+
+        let found = qData.filter(i => 
+            i.ar.includes(val) || i.ro.toLowerCase().includes(val) || i.hi.includes(val)
+        );
+
+        found.forEach(item => {
+            out.innerHTML += `
+                <div class="result-item">
+                    <div class="ar">${item.ar}</div>
+                    <div class="tr"><b>Roman:</b> ${item.ro}</div>
+                    <div class="tr"><b>Hindi:</b> ${item.hi}</div>
+                </div>`;
+        });
+    }
+
+    startApp();
+</script>
+</body>
+</html>
