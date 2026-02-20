@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Smart Translator</title>
+    <style>
+        :root { --p: #1a4d2e; --s: #4caf50; --bg: #fdfdf5; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eee; padding: 15px; margin: 0; }
+        .box { max-width: 500px; margin: auto; background: var(--bg); border-radius: 25px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd; }
+        h2 { color: var(--p); text-align: center; margin-bottom: 20px; font-size: 22px; }
+        input { width: 100%; padding: 18px; border: 2px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; text-align: center; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        input:focus { border-color: var(--s); outline: none; box-shadow: 0 0 10px rgba(76,175,80,0.2); }
+        #status { font-size: 12px; text-align: center; margin-bottom: 10px; color: green; font-weight: bold; }
+        #results { margin-top: 25px; }
+        .res-item { background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-right: 6px solid var(--p); transition: 0.3s; }
+        /* Arabic Text Style */
+        .ar-val { font-size: 35px; color: var(--p); font-weight: bold; display: block; text-align: right; font-family: 'Amiri', serif; line-height: 1.6; }
+        /* Roman/Hindi Text Style */
+        .tr-val { font-size: 20px; font-weight: bold; color: #333; margin-top: 10px; display: block; border-top: 1px solid #eee; padding-top: 10px; }
+        .sub-val { font-size: 16px; color: #666; display: block; margin-top: 5px; }
+        .label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Quran Word Translator</h2>
+    <div id="status">Connecting...</div>
+    <input type="text" id="searchInput" placeholder="Yahan likhein (e.g. Kataba या كتب)" oninput="searchQuran()">
+    
+    <div id="results"></div>
+</div>
+
+<script>
+    let qData = [];
+
+    async function loadData() {
+        try {
+            const response = await fetch('./quran_data.json'); 
+            qData = await response.json();
+            document.getElementById('status').innerText = "✅ Database Connected";
+        } catch (e) {
+            document.getElementById('status').innerText = "❌ Data Link Error";
+            document.getElementById('status').style.color = "red";
+        }
+    }
+
+    function searchQuran() {
+        let val = document.getElementById('searchInput').value.trim().toLowerCase();
+        let resDiv = document.getElementById('results');
+        resDiv.innerHTML = "";
+        
+        if(val.length < 2) return;
+
+        // Smart Filter: Ye check karega user kya likh raha hai
+        let found = qData.filter(i => 
+            i.ar.includes(val) || 
+            i.ro.toLowerCase().includes(val) || 
+            i.hi.includes(val)
+        );
+
+        found.forEach(item => {
+            let isArabicInput = /[\u0600-\u06FF]/.test(val); // Check if input is Arabic
+            
+            // UI Logic: Agar Arabic input hai toh Roman upar, warna Arabic upar
+            let mainDisplay = isArabicInput ? 
+                `<span class="label">Translation</span><span class="tr-val">${item.ro}</span><span class="sub-val">${item.hi}</span>` : 
+                `<span class="label">Arabic</span><span class="ar-val" dir="rtl">${item.ar}</span><span class="tr-val">${item.hi}</span>`;
+
+            resDiv.innerHTML += `<div class="res-item">${mainDisplay}</div>`;
+        });
+    }
+
+    window.onload = loadData;
+</script>
+</body>
+</html>
